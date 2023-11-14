@@ -55,7 +55,7 @@ const Main = () => {
       ) : isLoading ? (
         <Loading />
       ) : (
-        <View style={styles.container}>
+        <View>
           <View>
             <Button
               onPress={sortAsc}
@@ -71,7 +71,7 @@ const Main = () => {
               accessibilityLabel="boton"
             />
           </View>
-          <View style={styles.container} >
+          <View >
             <FlatList
               data={products}
               renderItem={({ item }) => (
@@ -89,25 +89,6 @@ const Main = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 16,
-  },
-  title: {
-    textAlign: 'center',
-    marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-});
+
 
 export default Main;
