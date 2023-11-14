@@ -1,52 +1,21 @@
-import React, { useEffect, useState } from "react";
+
 import { View,  FlatList, Button, StyleSheet } from "react-native";
-import { getProducts } from "../services/Products.service";
-import { IProduct } from "../interfaces/Products.interface";
 import Error from "./Error";
 import ProductItem from "./ProductItem";
 import Loading from "./Loading";
+import Constants from 'expo-constants'
+import FlatListSeparator from "./FlatListSeparator";
+import useProducts from "../hooks/useProducts";
 
 const Main = () => {
-  const [products, setProducts] = useState<IProduct[]>();
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | undefined>(undefined);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    setLoading(true);
-
-    try {
-      const resp = (await getProducts()).data;
-      setProducts(
-        resp.sort((a: IProduct, b: IProduct) => {
-          a.price - b.price;
-        })
-      );
-    } catch (error) {
-      setError(error as Error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const sortAsc = () => {
-    if (products != undefined) {
-      const sortedProducts = [...products];
-      sortedProducts.sort((a, b) => a.price - b.price);
-      setProducts(sortedProducts);
-    }
-  };
-
-  const sortDesc = () => {
-    if (products != undefined) {
-      const sortedProducts = [...products];
-      sortedProducts.sort((a, b) => b.price - a.price);
-      setProducts(sortedProducts);
-    }
-  };
+  const {
+    products, 
+    error, 
+    isLoading,
+     sortAsc, 
+     sortDesc 
+  } = useProducts();
+ 
 
   return (
     <>
@@ -55,12 +24,12 @@ const Main = () => {
       ) : isLoading ? (
         <Loading />
       ) : (
-        <View>
-          <View>
+        <View style={{ marginTop: Constants.statusBarHeight, flex: 1 }} >
+          <View >
             <Button
               onPress={sortAsc}
               title="Ordenar ascendente"
-              color="#f194ff"
+              color="#000"
               accessibilityLabel="boton"
             />
 
@@ -71,9 +40,10 @@ const Main = () => {
               accessibilityLabel="boton"
             />
           </View>
-          <View >
+          <View style={styles.container}>
             <FlatList
               data={products}
+              ItemSeparatorComponent={FlatListSeparator}
               renderItem={({ item }) => (
                 <ProductItem
                   id={item.id}
@@ -89,6 +59,11 @@ const Main = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    padding: 20
+  }
+})
 
 
 export default Main;
