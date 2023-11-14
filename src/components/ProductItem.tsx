@@ -1,13 +1,30 @@
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
-const ProductItem = ({id, title, price}: {id: number, title: string, price: number}) => {
+const ProductItem = ({title, price}: {id: number, title: string, price: number}) => {
     return (
-        <View>
-            <Text>{`Id del Producto: ${id}`}</Text>
-            <Text>{`Nombre: ${title}`}</Text>
-            <Text>{`Precio: ${price}`}</Text>
+        <View style={style.container}>
+            <Text style={style.textTitle}>{`Nombre: ${title}`}</Text>
+            <Text style={style.textPrice}>{`Precio: ${price}`}</Text>
         </View>
     )
 }
+
+const style = StyleSheet.create({
+    container:{
+        padding: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        flexWrap: 'nowrap',
+    },
+    textTitle:{
+        fontWeight: "bold",
+        flexBasis: 150
+    },
+    textPrice:{
+
+    }
+
+})
+
 
 export default ProductItem;
